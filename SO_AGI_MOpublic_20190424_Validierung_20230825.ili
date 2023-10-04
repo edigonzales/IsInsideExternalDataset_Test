@@ -4,22 +4,53 @@ CONTRACTED MODEL SO_AGI_MOpublic_20190424_Validierung_20230825 (de)
 AT "https://agi.so.ch"
 VERSION "2023-08-25"  =
   
-IMPORTS SO_AGI_MOpublic_20190424, GeoW_FunctionsExt;
+IMPORTS SO_AGI_MOpublic_20190424, GeoW_FunctionsExt, Math;
 IMPORTS UNQUALIFIED INTERLIS;
   
   VIEW TOPIC SO_AGI_MOpublic_Validierung = 
   DEPENDS ON SO_AGI_MOpublic_20190424.MOpublic;
   
-    VIEW v_Fixpunkt
-      PROJECTION OF SO_AGI_MOpublic_20190424.MOpublic.Fixpunkt;
+    !! VIEW v_Fixpunkt
+    !!   PROJECTION OF SO_AGI_MOpublic_20190424.MOpublic.Fixpunkt;
+    !! =
+    !!   ALL OF Fixpunkt;
+    
+    !!   !!@ name = IsInsideKanton
+    !!   !!@ ilivalid.msg = "Punkt {Nummer} ist nicht innerhalb des Kantons"
+    !!   MANDATORY CONSTRAINT GeoW_FunctionsExt.IsInsideExternalDataset("SO_Hoheitsgrenzen_Publikation_20170626.Hoheitsgrenzen.Gemeindegrenze.Geometrie", "39969c9c-ca50-40af-ab67-f7f018182a66", THIS, "Pos");
+
+    !! END v_Fixpunkt;
+
+    !! VIEW v_Einzelobjekt_Linie
+    !!   PROJECTION OF SO_AGI_MOpublic_20190424.MOpublic.Einzelobjekt_Linie;
+    !! =
+    !!   ALL OF Einzelobjekt_Linie;
+    
+    !!   !!@ name = MinLengthEO
+    !!   !!@ ilivalid.msg = "EO-Linienobjekt ist zu kurz."
+    !!   MANDATORY CONSTRAINT GeoW_FunctionsExt.GetLength(Geometrie, UNDEFINED) > 2;
+      
+    !!   !!@ name = TotalLengthEO
+    !!   !!@ ilivalid.msg = "Die Länge sämtlicher EO-Linienobjekte ist zu kurz."
+    !!   SET CONSTRAINT GeoW_FunctionsExt.GetLength(ALL, "Geometrie") < 200;
+
+    !! END v_Einzelobjekt_Linie;
+
+    VIEW v_Bodenbedeckung
+      PROJECTION OF SO_AGI_MOpublic_20190424.MOpublic.Bodenbedeckung;
     =
-      ALL OF Fixpunkt;
-                
+      ALL OF Bodenbedeckung;
+  
+      !! !!@ name = MinAreaBB
+      !! !!@ ilivalid.msg = "BB-Objekt ist zu klein."
+      !! MANDATORY CONSTRAINT GeoW_FunctionsExt.GetArea(Geometrie, UNDEFINED) < 20000;
 
-    !!93937afb-468c-4eca-ac64-ce5b1bfbf22e
-      MANDATORY CONSTRAINT GeoW_FunctionsExt.IsInsideExternalDataset("SO_Hoheitsgrenzen_Publikation_20170626.Hoheitsgrenzen.Kantonsgrenze.Geometrie", "fubar", THIS, "Pos");
+      !!@ name = keineLöcher
+      !!@ ilivalid.msg = "BB-Objekte dürfen keine Flächen aufweisen."
+      MANDATORY CONSTRAINT GeoW_FunctionsExt.GetInnerRingsCount(THIS, "Geometrie") <= 1;
 
-    END v_Fixpunkt;
+  END v_Bodenbedeckung;
+
 
   END SO_AGI_MOpublic_Validierung;
 
