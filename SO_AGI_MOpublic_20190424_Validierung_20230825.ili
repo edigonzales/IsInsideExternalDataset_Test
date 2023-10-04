@@ -45,8 +45,8 @@ IMPORTS UNQUALIFIED INTERLIS;
       !! !!@ ilivalid.msg = "BB-Objekt ist zu klein."
       !! MANDATORY CONSTRAINT GeoW_FunctionsExt.GetArea(Geometrie, UNDEFINED) < 20000;
 
-      !!@ name = keineLöcher
-      !!@ ilivalid.msg = "BB-Objekte dürfen keine Flächen aufweisen."
+      !!@ name = max1Loch
+      !!@ ilivalid.msg = "BB-Objekte dürfen max ein Loch aufweisen."
       MANDATORY CONSTRAINT GeoW_FunctionsExt.GetInnerRingsCount(THIS, "Geometrie") <= 1;
 
   END v_Bodenbedeckung;
