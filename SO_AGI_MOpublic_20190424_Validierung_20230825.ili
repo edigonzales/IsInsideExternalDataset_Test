@@ -10,16 +10,16 @@ IMPORTS UNQUALIFIED INTERLIS;
   VIEW TOPIC SO_AGI_MOpublic_Validierung = 
   DEPENDS ON SO_AGI_MOpublic_20190424.MOpublic;
   
-    !! VIEW v_Fixpunkt
-    !!   PROJECTION OF SO_AGI_MOpublic_20190424.MOpublic.Fixpunkt;
-    !! =
-    !!   ALL OF Fixpunkt;
+    VIEW v_Fixpunkt
+      PROJECTION OF SO_AGI_MOpublic_20190424.MOpublic.Fixpunkt;
+    =
+      ALL OF Fixpunkt;
     
-    !!   !!@ name = IsInsideKanton
-    !!   !!@ ilivalid.msg = "Punkt {Nummer} ist nicht innerhalb des Kantons"
-    !!   MANDATORY CONSTRAINT GeoW_FunctionsExt.IsInsideExternalDataset("SO_Hoheitsgrenzen_Publikation_20170626.Hoheitsgrenzen.Gemeindegrenze.Geometrie", "39969c9c-ca50-40af-ab67-f7f018182a66", THIS, "Pos");
+      !!@ name = IsInsideKanton
+      !!@ ilivalid.msg = "Punkt {Nummer} ist nicht innerhalb des Kantons"
+      MANDATORY CONSTRAINT GeoW_FunctionsExt.IsInsideExternalDataset("SO_Hoheitsgrenzen_Publikation_20170626.Hoheitsgrenzen.Gemeindegrenze.Geometrie", "39969c9c-ca50-40af-ab67-f7f018182a66", THIS, "Pos");
 
-    !! END v_Fixpunkt;
+    END v_Fixpunkt;
 
     !! VIEW v_Einzelobjekt_Linie
     !!   PROJECTION OF SO_AGI_MOpublic_20190424.MOpublic.Einzelobjekt_Linie;
@@ -41,13 +41,13 @@ IMPORTS UNQUALIFIED INTERLIS;
     =
       ALL OF Bodenbedeckung;
   
-      !! !!@ name = MinAreaBB
-      !! !!@ ilivalid.msg = "BB-Objekt ist zu klein."
-      !! MANDATORY CONSTRAINT GeoW_FunctionsExt.GetArea(Geometrie, UNDEFINED) < 20000;
+      !! !! !!@ name = MinAreaBB
+      !! !! !!@ ilivalid.msg = "BB-Objekt ist zu klein."
+      !! !! MANDATORY CONSTRAINT GeoW_FunctionsExt.GetArea(Geometrie, UNDEFINED) < 20000;
 
-      !!@ name = max1Loch
-      !!@ ilivalid.msg = "BB-Objekte dürfen max ein Loch aufweisen."
-      MANDATORY CONSTRAINT GeoW_FunctionsExt.GetInnerRingsCount(THIS, "Geometrie") <= 1;
+      !! !!@ name = max1Loch
+      !! !!@ ilivalid.msg = "BB-Objekte dürfen max ein Loch aufweisen."
+      !! MANDATORY CONSTRAINT GeoW_FunctionsExt.GetInnerRingsCount(THIS, "Geometrie") <= 1;
 
   END v_Bodenbedeckung;
 
