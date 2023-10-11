@@ -32,6 +32,7 @@ task dummy() {
     doLast {
         println "****"
         println System.getProperty("java.class.path")
+        println ClassLoader.getSystemClassLoader()
         println "****"
     }
 }

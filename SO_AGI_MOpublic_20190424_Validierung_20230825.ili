@@ -4,7 +4,7 @@ CONTRACTED MODEL SO_AGI_MOpublic_20190424_Validierung_20230825 (de)
 AT "https://agi.so.ch"
 VERSION "2023-08-25"  =
   
-IMPORTS SO_AGI_MOpublic_20190424, GeoW_FunctionsExt, Math;
+IMPORTS SO_AGI_MOpublic_20190424, GeoW_FunctionsExt, SO_FunctionsExt, Math;
 IMPORTS UNQUALIFIED INTERLIS;
   
   VIEW TOPIC SO_AGI_MOpublic_Validierung = 
@@ -40,7 +40,17 @@ IMPORTS UNQUALIFIED INTERLIS;
       PROJECTION OF SO_AGI_MOpublic_20190424.MOpublic.Bodenbedeckung;
     =
       ALL OF Bodenbedeckung;
-  
+
+      !! !!@ name = checkObjectCount
+      !! !!@ ilivalid.msg = "Die Anzahl Objekte ist falsch."
+      !! MANDATORY CONSTRAINT INTERLIS.objectCount(SO_FunctionsExt.getObjectsOfAnyClass("SO_AGI_MOpublic_20190424.MOpublic.Gemeindegrenze")) ==  1;
+
+
+      !!@ name = checkAreaDiff
+      !!@ ilivalid.msg = "Die Summe aller BB-Flächen stimmt nicht mit der Fläche der Gemeinde überein."
+      SET CONSTRAINT Math.abs(Math.sub(GeoW_FunctionsExt.GetArea(ALL, "Geometrie"), GeoW_FunctionsExt.GetArea(SO_FunctionsExt.getObjectsOfAnyClass("SO_AGI_MOpublic_20190424.MOpublic.Gemeindegrenze"), "Geometrie"))) < 0.4;
+
+
       !! !! !!@ name = MinAreaBB
       !! !! !!@ ilivalid.msg = "BB-Objekt ist zu klein."
       !! !! MANDATORY CONSTRAINT GeoW_FunctionsExt.GetArea(Geometrie, UNDEFINED) < 20000;
