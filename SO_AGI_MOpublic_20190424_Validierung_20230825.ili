@@ -17,7 +17,7 @@ IMPORTS UNQUALIFIED INTERLIS;
     
       !!@ name = IsInsideKanton
       !!@ ilivalid.msg = "Punkt {Nummer} ist nicht innerhalb des Kantons"
-      MANDATORY CONSTRAINT GeoW_FunctionsExt.IsInsideExternalDataset("SO_Hoheitsgrenzen_Publikation_20170626.Hoheitsgrenzen.Gemeindegrenze.Geometrie", "39969c9c-ca50-40af-ab67-f7f018182a66", THIS, "Pos");
+      MANDATORY CONSTRAINT GeoW_FunctionsExt.IsInsideExternalDatasetResource("ch.so.agi.av.hoheitsgrenzen.xtf", "SO_Hoheitsgrenzen_Publikation_20170626.Hoheitsgrenzen.Gemeindegrenze.Geometrie", "a8bf5f9f-18a7-4cf2-8424-6c656a1de99a", THIS, "Pos");
 
     END v_Fixpunkt;
 
@@ -46,9 +46,9 @@ IMPORTS UNQUALIFIED INTERLIS;
       !! MANDATORY CONSTRAINT INTERLIS.objectCount(SO_FunctionsExt.getObjectsOfAnyClass("SO_AGI_MOpublic_20190424.MOpublic.Gemeindegrenze")) ==  1;
 
 
-      !!@ name = checkAreaDiff
-      !!@ ilivalid.msg = "Die Summe aller BB-Flächen stimmt nicht mit der Fläche der Gemeinde überein."
-      SET CONSTRAINT Math.abs(Math.sub(GeoW_FunctionsExt.GetArea(ALL, "Geometrie"), GeoW_FunctionsExt.GetArea(SO_FunctionsExt.getObjectsOfAnyClass("SO_AGI_MOpublic_20190424.MOpublic.Gemeindegrenze"), "Geometrie"))) < 0.4;
+      !! !!@ name = checkAreaDiff
+      !! !!@ ilivalid.msg = "Die Summe aller BB-Flächen stimmt nicht mit der Fläche der Gemeinde überein."
+      !! SET CONSTRAINT Math.abs(Math.sub(GeoW_FunctionsExt.GetArea(ALL, "Geometrie"), GeoW_FunctionsExt.GetArea(SO_FunctionsExt.getObjectsOfAnyClass("SO_AGI_MOpublic_20190424.MOpublic.Gemeindegrenze"), "Geometrie"))) < 0.4;
 
 
       !! !! !!@ name = MinAreaBB

@@ -5,18 +5,27 @@
 
 // buildscript {
 //     repositories {
+//         flatDir {
+//             dirs '/Users/stefan/sources/geow-interlis-functions/build/libs/'
+//         }
+//         mavenLocal()
 //         maven { url "https://jars.interlis.ch" }
 //         maven { url "https://repo.osgeo.org/repository/release/" }
 //         maven { url "https://plugins.gradle.org/m2/" }
+//         maven { url "https://s01.oss.sonatype.org/service/local/repositories/releases/content/" }
+//         maven { url "https://s01.oss.sonatype.org/service/local/repositories/snapshots/content/" }
 //         mavenCentral()
-//         mavenLocal()
+//     }
+//     dependencies {
+//         classpath fileTree(dir: '/Users/stefan/sources/geow-interlis-functions/build/libs/', include: '*.jar')
+//         classpath "ch.so.agi:gretl:2.3.426"
+//         classpath "de.undercouch:gradle-download-task:4.1.2"
 //     }
 // }
 
-// plugins {
-//   id "de.undercouch.download" version "4.1.2"
-//   id "ch.so.agi.gretl" version "2.2.+"
-// }
+// apply plugin: "ch.so.agi.gretl"
+// apply plugin: "de.undercouch.download"
+
 
 import java.nio.file.Paths
 import ch.so.agi.gretl.tasks.*
@@ -41,6 +50,7 @@ task validate(type: IliValidator, dependsOn: 'dummy') {
     dataFiles = ["2549.ch.so.agi.av.mopublic.xtf"]
     logFile = "ilivalidator.log"
     configFile = "mopublic.ini"
+    //modeldir = "/home/gradle/project/;https://models.geo.admin.ch;https://geo.so.ch/models/"
 
 
 }
